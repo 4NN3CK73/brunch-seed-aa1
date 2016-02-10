@@ -1,9 +1,9 @@
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('_public/package.json'),
-    nodewebkit: {
+    nwjs: {
       options: {
-        version: "0.8.3",
+        version: "0.12.3",
         build_dir: './dist',
         // specifiy what to build
         mac: true,
@@ -15,7 +15,7 @@ module.exports = function(grunt) {
     },
   });
 
-  grunt.loadNpmTasks('grunt-node-webkit-builder');
+  grunt.loadNpmTasks('grunt-nw-builder');
 
-  grunt.registerTask('default', ['nodewebkit']);
+  grunt.registerTask('default', ['nwjs']);
 };
