@@ -1,4 +1,4 @@
-!!! 5
+!!!5
 html(lang='en', ng-app='app')
   head
     meta(charset='utf-8')
@@ -7,20 +7,8 @@ html(lang='en', ng-app='app')
     meta(name='description', content='')
     meta(name='author', content='')
     title(ng-bind-template='{{pageTitle}}')
-    link(rel='stylesheet', href='css/app.css')
-    //-script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
-    //if lte IE 7
-      script(src='http://cdnjs.cloudflare.com/ajax/libs/json2/20110223/json2.js')
-    //if lte IE 8
-      script(src='//html5shiv.googlecode.com/svn/trunk/html5.js')
-    script.
-      window.brunch = window.brunch || {};
-      window.brunch['auto-reload'] = {
-        enabled: true
-      };
-    script(src='js/vendor.js')
-    script(src='js/partials.js')
-    script(src='js/app.js')
+    link(rel='stylesheet', href='/css/app.css')
+
   body(ng-controller='AppCtrl')
     .wrapper
       .navbar.navbar-static-top
@@ -32,9 +20,9 @@ html(lang='en', ng-app='app')
               span.icon-bar
             a(href='/').brand Angular Brunch Seed
             .nav-collapse
-              div(ng-include="'/partials/nav.html'")
+              div(ng-include="'/navbar/nav.html'")
       .container.main-content
-        div(ng-view)
+        div(ui-view="main-content")
         div Angular Brunch seed app: v<span app-version></span>
       .push
 
@@ -42,4 +30,22 @@ html(lang='en', ng-app='app')
       .container
         p
           small
-            a(href='https://github.com/scotch/angular-brunch-seed') angular-brunch-seed | source
+            a(href='https://github.com/scotch/angular-brunch-seed.git') angular-brunch-seed (modularized) | source
+
+    //-script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
+    //if lte IE 7
+      script(src='http://cdnjs.cloudflare.com/ajax/libs/json2/20110223/json2.js')
+    //if lte IE 8
+      script(src='//html5shiv.googlecode.com/svn/trunk/html5.js')
+    script.
+      window.brunch = window.brunch || {};
+      window.brunch['auto-reload'] = {
+        enabled: true
+      };
+    script(src='/js/auto-reload.js')
+    script(src='/js/vendor.js')
+    script(src='/js/navbar.partials.js')
+    script(src='/js/todo.partials.js')
+    script(src='/js/view1.partials.js')
+    script(src='/js/view2.partials.js')
+    script(src='/js/app.js')
