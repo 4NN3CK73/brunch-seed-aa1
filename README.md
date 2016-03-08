@@ -1,98 +1,252 @@
-node-webkit-hipster-seed
-========================
-[![Gittip](http://img.shields.io/gittip/Anonyfox.png)](https://www.gittip.com/Anonyfox/)
-[![Dependency Status](https://gemnasium.com/Anonyfox/node-webkit-hipster-seed.png)](https://gemnasium.com/Anonyfox/node-webkit-hipster-seed)
+# angular-brunch-seed
+### A starter project for AngularJS using Brunch.io
 
-Bootstrap a crossplatform Desktop Application using tools you probably never heard of.
+[AngularJS](http://angularjs.org) + [Brunch](http://brunch.io)
 
-If you're familiar with the node.js world, this sketch should get you informed, if not: an [explanation](https://github.com/Anonyfox/node-webkit-hipster-seed/wiki/how-it-works) is placed [in the wiki](https://github.com/Anonyfox/node-webkit-hipster-seed/wiki). 
+#### ** MAJOR UPDATES **
+v0.4.1 Brings with it some major changes. If you're upgrading from a previous release, 
+please run `./scripts/init.sh` and remove any bower components from `vendor`. Bower
+now uses the `bower_components` directory.
 
-![How NWHS works](https://raw.github.com/Anonyfox/node-webkit-hipster-seed/master/docs/nwhs-draft.png)
+Features:
+* Coffeescript / Jade / Less / Stylus automatically compiled on save
+* auto-reload during development saves you from manually refreshing the page
+* Javascript / CSS minification for production
+* [karma](https://github.com/karma-runner/karma) integration for
+  unit tests
+* Bootstrap integration with themes.
+* Source map support
+* Modularized code, see /app/sections
+* angular/ui-router for more flexible routing
 
-#TL;DR?
+## Why modularize?
 
-- No this isn't a developer joke. It works. 
-- `brunch new https://github.com/Anonyfox/node-webkit-hipster-seed MyApp` to get you started.
-- `npm run compiler` assembles your application into `/_public` and watches file changes.
-- `npm run app` starts your application locally. 
-- `npm run deploy` builds your app for windows, osx and linux. the binaries are placed in `/dist` after building. 
-- `bower install <frontend-module>` for any frontend-related stuff. jQuery, Angular-plugins, and so on. 
-- `npm install my-module` **inside of `app/assets`** to install node.js modules. 
-- see the [wiki](https://github.com/Anonyfox/node-webkit-hipster-seed/wiki) for advanced stuff.
+This "modularized" version is intended to be as simple as possible while laying down patterns that, if followed, will create an easily-maintained complex application. The original Angular-Seed entices one down the path of code segregated by type (controllers, views, etc.) rather than by feature (todo, view1, view2). Misko recommends organizing code around features (see [this](http://www.youtube.com/watch?feature=player_embedded&v=E87rXWE62WU#t=106s) 10/27/13 presentation).
 
-#Workflow - detailed
+Modularized code is better for 
+* unit testing
+* working with larger teams (to not step on each others’ work)
+* preparing for the future because modules will be able to be lazy-loaded and so this structure will be either required or firmly recommended
 
-###0. Prerequisites
+## What, exactly, is different in the modularized code?
+Differences
+* Instead of one controller, one partials folder, one module, there are several
+  * top level ones under /app 
+  * lower-level ones under /app/sections 
+    * (to make that work, karma.conf.js and config.coffee had to be changed, to pick up and integrate the files from more locations)
+* Instead of using the $routeProvider, it uses angular-ui-router to allow output to multiple named views, nested views, etc. Routing and ng-view was mentioned by many online as pain points for larger apps. This arrangement should be much better.
 
-You need the following stuff installed on your machine: 
-- [Node.js & NPM](http://nodejs.org/) (see the instructions for your operating system. Ensure that globally installed NPM modules are in your PATH!)
-- Windows Users: Use a Git Bash or the [PowerShell](http://en.wikipedia.org/wiki/Windows_PowerShell) instead of CMD.exe !
-- Linux Users: You may have to do a [symlink](https://github.com/rogerwang/node-webkit/wiki/The-solution-of-lacking-libudev.so.0). 
-- Git. (Brunch and Bower depend on Git to work.) Windows users: try [this](http://git-scm.com/), there is a good usable CLI included which should work with the workflow out-of-the-box. The primitive CMD.exe is currently NOT supported. 
-- [Brunch](http://brunch.io/) via a global npm installation: `npm install -g brunch`.
-- [Bower](http://bower.io/) via a global npm installation: `npm install -g bower`.
+## Alternate Versions
 
-###1. Bootstrap a new Desktop App!
+- [Livescript](https://github.com/clkao/angular-brunch-seed-livescript) 
+  by [@clkao](https://github.com/clkao) - Uses [Livescript](http://livescript.net/) 
+  instead of [Coffeescript](http://coffeescript.org/)
+- [True North](https://github.com/scoarescoare/angular-brunch-true-north) 
+  by [@scoarescoare](https://github.com/scoarescoare) - Uses [SASS](http://sass-lang.com/) 
+  instead of [LESS](http://lesscss.org/)
+- [brunch-on-asteroids](https://github.com/exlee/brunch-on-asteroids) 
+  by [@exlee](https://github.com/exlee) - A minimalistic version that adds Generators,
+  Bootswatch themes, D3, and more.
+- [angular-brunch-seed-modularized](https://github.com/sanfordredlich/angular-brunch-seed-modularized) 
+  by [@sanfordredlich](https://github.com/sanfordredlich) - Demonstrates a modular
+  design, consistent with best practices and better suited for larger projects
+
+## How to use angular-brunch-seed
+
+* `git clone https://github.com/scotch/angular-brunch-seed.git` to clone 
+  the **angular-brunch-seed** repository
+* `cd angular-brunch-seed`
+* `./scripts/init.sh` to install node packages
+
+Or if you have **Brunch** installed run:
+
+`brunch new https://github.com/scotch/angular-brunch-seed myapp`
+
+You must also install packages using bower. Either
 
 ```
-brunch new https://github.com/Anonyfox/node-webkit-hipster-seed MyApp
+bower install
+```
+or
+```
+./node_modules/.bin/bower install
 ```
 
-*This may take a few minutes depending on your hardware and internet connection, since this git repo will be cloned, a bunch of npm modules will be installed, including the somewhat big [node-webkit](https://github.com/rogerwang/node-webkit), and several bower modules afterwards.*
+*NOTE:* Depending upon your connection and processor speed the build can take
+a substantial amount of time (3 - 15 minutes). The bower step is particularly
+slow, because it downloads the complete git history. If you think that there
+might be a problems, check you network traffic. If the build is still
+downloading then it's still working.
 
-**Currently there is a bug within the nodewebkit package.** You have to rename
-`node_modules/nodewebkit/package.json` to `node_modules/nodewebkit/_package.json`
+### Using Jade
 
-###2. Develop an AngularJS App on Steroids!
+You will find the jade files in the `app` and `app/partials` directories.
+Upon save the Jade files will be recompiled to HTML and added to the
+`$templateCache`. When reverencing a partial use the path should begin with
+`partial/` and end with `.html`. For example the `app/partials/nav.jade` would
+be referenced in the Angular javascript code as 'partials/nav.html'.
 
-`cd MyApp`. Place your typical application code under `/app`. So: 
+*NOTE:* Behind the scenes Angular-brunch-seed uses 
+[jade-angular-brunch](https://github.com/GulinSS/jade-angularjs-brunch)
+to compile and serve partials.
+[jade-angular-brunch](https://github.com/GulinSS/jade-angularjs-brunch)
+works by creating an Angular module named`'partials'` that adds the HTML
+string of the partials to the `$templateCache`. For this to work you must add
+`partials` to yours apps required modules list and include the `partials.js`
+file in your `index.html` file.
 
-- `/app/styles` contains all your stylesheets as LESS files. You may look into `/app/styles/app.less` when fine-tuning your included CSS-related components.
-- `/app/scripts` is the folder for your coffeescript application logic, especially your AngularJS stuff. The mighty AngularJS main-module is defined in `/app/app.coffee` and includes the angular module loader and the url routing definitions. 
-- `/app/partials` contains your Jade templates which are compiled and merged into an AngularJS template module. The main index file is located at `/app/index.jade` and will be compiled to an actual `index.html` file.
-- `/app/assets` is the catch-all directory for everything else, like images or fonts. The whole directory, including the folder-hierarchy, is copied **as is** into the final application folder. *If you want to use npm modules inside your application, install them here, and NOT in the toplevel folder!* Also, the `/app/assets/package.json` is used to describe and build your application, NOT the toplevel `/package.json`!
+If you are interested in the compiled HTML view the contents 
+of the `_public/js/partials.js` file.
 
-*The App-level structure is basically the same as [angular-brunch-seed](https://github.com/scotch/angular-brunch-seed).*
+### Using html
 
-All this assembling stuff is managed for you automatically when you run the following command: 
+By default angular-brunch-seed uses jade templates. If you would prefer to use
+HTML run the command:
 
-```npm run compiler```
+```
+./scripts/compile-html.sh
+```
+All Jade file will be compiled to HTML and be placed in the `app/assets` directory.
+Additionally, the `*.jade` files will be removed from the project. Any changes
+that you make to the `app/assets/**/*.html` files will now appear in the browser.
 
-While this task is running, every change in your `/app` folder triggers an efficient partial rebuild of the relevant files. Any `bower install <frontend-module>` triggers this, too. 
+### Running the app during development
 
-To run your app locally, just enter: 
+* `./scripts/server.sh` to serve using **Brunch**
 
-```npm run app```
+Then navigate your browser to [http://localhost:3333](http://localhost:3333)
 
-###3. Add more modules and plugins!
+*NOTE:* Occasionally the scripts will not load properly on the initial
+load. If this occurs, refresh the page. Subsequent refresh will render
+correctly. Also, the initial load will take longer then subsequent loads,
+some where around 20 seconds is normal.
 
-Gone are the days of drag'n'droppin' your jQuery plugins from diverse websites into your script folders. Just use [Bower](http://bower.io/) for anything "browser related". Think of it as a NPM for the frontend. Any components installed by bower are saved in `bower_components` and automatically inserted in the compilation process. 
+### Running the app in production
 
-###4. Test ALL the things!
+* `./scripts/production.sh` to minify javascript and css files.
 
-Since your desktop application is basically just an AngularJS app, you can use [Karma](http://karma-runner.github.io/0.10/index.html), which is especially written for testing AngularJS apps end-to-end. *(ToDo: configure karma to fire up node-webkit instead of chromium.)*
+Please be aware of the caveats regarding Angular JS and minification, 
+take a look at [Dependency Injection](http://docs.angularjs.org/guide/di)
+for information.
 
-###5. Deploy your App!
+### Using Bower
 
-When you're done building your awesome app, just type 
+Angular-brunch-seed uses [Bower](http://twitter.github.com/bower/) for package
+management. To add or update dependencies, modify the `component.json` file
+and run `bower install`. The component will be added to the `vendor` directory.
 
-```npm run deploy```
+### Running unit tests
 
-and you'll have your final application folders located in `/dist` for each major operating system. When performing this task the first time, it'll take several minutes to download the necessary node-webkit binaries per target system. 
+* `./scripts/test.sh` to run unit tests with [karma](https://github.com/karma-runner/karma)
 
-*So far only tested on OSX and Windows 7/8. The application icon and several minor features still require some work, have a look at [grunt-node-webkit-builder](https://github.com/mllrsohn/grunt-node-webkit-builder) if you want to give a helping hand.*
+Notes:
 
-#Licence
+- Karma will run tests on save. To insure that changes are saved be sure
+  to have `./script/server.sh` or `./script/development.sh` running in the console.
+- Set the browsers that you would like to target in the `/test/karma.conf.js` file
+  E.g. `browser = ["ChromeCanary", "Firefox"]`
 
-**MIT.** You can assign any licence you want to your built apps, however you should pick the GPL if you are awesome *([like lighttable did](https://news.ycombinator.com/item?id=7024626))*. 
+### End to end testing
 
-#Feedback
+* run the app in development mode as described above using a separate terminal
+* `./scripts/test-e2e.sh` to run e2e tests with
+  [karma](https://github.com/karma-runner/karma) using Angular's scenario runner
 
-- Just use the issues section to discuss features or report bugs.
-- There is a thread on [HackerNews](https://news.ycombinator.com/item?id=7094465) and one on [Reddit](http://www.reddit.com/r/webdev/comments/1vumf5/workflow_for_frontend_developers_to_create/). 
-- If you have general questions not related to this project, you may tweet to [@Hisako1337](https://twitter.com/Hisako1337) (that's me.).
+### Common issues
 
-#Donate!
+Initial load does not render correctly; scripts are not loading. 
+- Occasionally the scripts will not load properly on the initial load. If this
+  occurs, refresh the page. Subsequent refresh will render correctly.
 
-If you like what you see, feel free to tip me some DOGECOIN. Much App. Wow!
-`D6M5ibT5CUe14yWRt8ZmVQkwzp8icio5Yc`
+`EMFILE` error
+- EMFILE means there are too many open files. Brunch watches all your project
+  files and it's usually a pretty big number. You can fix this error with
+  setting max opened file count to bigger number with command `ulimit -n 10000`.
+
+The complete [Brunch FAQ](https://github.com/brunch/brunch/blob/master/docs/faq.rst)
+
+### Receiving updates from upstream
+
+When we upgrade Angular-brunch-seed's repo with newer angular or testing library code,
+you can just fetch the changes and merge them into your project with git.
+
+```bash
+git pull origin master
+```
+
+## Directory Layout
+
+    _public/                  --> Contains generated file for servering the app
+                                  These files should not be edited directly
+    app/                      --> all of the files to be used in production
+
+      assets                  --> a place for static assets. These files will be copied to
+                                  the public directory un-modified.
+        img/                  --> image files
+        partials/             --> angular view partials (partial HTML templates)
+          nav.html                If you are using HTML you may modify these files directly.
+          partial1.html           If you are using Jade these file will be update from their *.jade counterpart
+          partial2.html
+        index.html            --> app layout file (the main html template file of the app).
+
+      partials/               --> Jade partial files. This file will be converted to HTML upon save.
+        nav.jade                  If you are using HTML this directory will not be present. You will find the template file
+        partial1.jade             in the `app/assets/partials` directory instead.
+        partial2.jade             If you are using Jade these file will be converted to HTML and compiled into 
+                                  `_public/js/partials.js` upon save.
+      scripts/                --> base directory for app scripts
+        controllers.js        --> application controllers
+        directives.js         --> custom angular directives
+        filters.js            --> custom angular filters
+        services.js           --> custom angular services
+
+      styles/                 --> all custom styles. Acceptable files types inculde:
+                                  less, and stylus
+        _override.less        --> styles that should be loaded after bootstrap.
+        _variables.less       --> bootstrap variables to be used during the compilation process
+                              --> **NOTE the underscore (_). Files begining with an underscore 
+                                  will not automatically be compiled, they must be imported.
+        app.less              --> a file for importing styles.
+      app.coffee              --> application definition and routes.
+      index.jade              --> Index file. This will be converted to assets/index.html on save
+      init.coffee             --> application bootstrap
+
+    bower_components/         --> The bower_components dirctory is populated by Bower.
+                                  It contains  Angular, Bootstrap Font-Awesome 
+                                  and other utility files.
+    node_modules              --> NodeJS modules
+
+    scripts/                  --> handy shell scripts
+      compile-html.sh         --> compiles *.jade file to *.html file and places them in app/assets
+      compile-tests.sh        --> compiles coffeescript test to javascript
+      development.sh          --> compiles files and watches for changes
+      init.sh                 --> installs node modules
+      production.sh           --> compiles and compresses files for production use
+      server.sh               --> runs a development server at `http://localhost:3333`
+      test.sh                 --> runs all unit tests
+      test-e2e.sh             --> runs all end-to-end tests using Testacular
+
+    test/                     --> test source files and libraries
+      app/
+        scenarios.coffee      --> end-to-end specs
+      unit/
+        controllers.spec.js   --> specs for controllers
+        directives.spec.js    --> specs for directives
+        filters.spec.js       --> specs for filters
+        services.spec.js      --> specs for services
+      vendor/
+        test-results.xml      --> Karma test resuls
+        karma-e2e.conf.js     --> Karma end-to-end tests config
+        karma.conf.js         --> Karma unit tests config
+
+    vendor/                   --> The vendor directory is can be used for 3rd Party libraries.
+                                  Any files located in this directory will be included in js/vendor.js
+  bower.json                  --> Bower component config
+  config.coffee               --> Brunch config
+  package.json                --> node modules config
+
+## Contributers
+
+[Complete list of code contributers](https://github.com/scotch/angular-brunch-seed/graphs/contributors)
+
+For more information on angular please check out <http://angularjs.org>

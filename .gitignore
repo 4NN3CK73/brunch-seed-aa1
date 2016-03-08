@@ -1,4 +1,3 @@
-/cache
 **/.DS_Store
 nbproject
 manifest.mf
@@ -18,7 +17,3 @@ test/test-results.xml
 
 # Bower stuff.
 bower_components/
-
-# build stuff.
-dist
-dist/*

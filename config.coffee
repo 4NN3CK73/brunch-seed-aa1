@@ -1,8 +1,7 @@
 exports.config =
   # See docs at http://brunch.readthedocs.org/en/latest/config.html.
   conventions:
-    assets:  /^app[\/\\]+assets[\/\\]+/
-    ignored: /^(bower_components[\/\\]+bootstrap-less(-themes)?|app[\/\\]+styles[\/\\]+overrides|(.*?[\/\\]+)?[_]\w*)/
+    assets: /^app\/assets\//
   modules:
     definition: false
     wrapper: false
@@ -23,7 +22,7 @@ exports.config =
         ]
 
     templates:
-      joinTo:
+      joinTo: 
         'js/dontUseMe' : /^app/ # dirty hack for Jade compiling.
 
   plugins:
@@ -34,4 +33,4 @@ exports.config =
       locals: {}
 
   # Enable or disable minifying of result js / css files.
-  minify: true
+  # minify: true
